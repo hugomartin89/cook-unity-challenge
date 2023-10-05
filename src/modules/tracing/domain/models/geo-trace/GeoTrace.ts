@@ -1,12 +1,9 @@
-export type GeolocationData = {
+export type GeoTrace = {
     readonly ip: string;
     readonly name: string;
     readonly code: string;
     readonly lat: number;
     readonly lon: number;
     readonly currency: string;
-}
-
-export interface GeolocationService {
-    fetchDataForIp(ip: string): Promise<GeolocationData>;
+    readonly distance_to_usa: number;
 }

@@ -66,14 +66,14 @@ export class FixerCurrencyService implements CurrencyService {
         }
     }
 
-    public async fetchData(isos: string[]): Promise<FixerResponse> {
+    private async fetchData(isos: string[]): Promise<FixerResponse> {
         const response = await superagent.get(`${this.apiUrl}`)
             .query(this.strategy.buildQuery(isos));
 
         return JSON.parse(response.text) as FixerResponse;
     }
 
-    public transformToDomain(fixerData: FixerResponse): CurrencyRateData[] {
+    private transformToDomain(fixerData: FixerResponse): CurrencyRateData[] {
         const currencyRateData: CurrencyRateData[] = [];
 
         for (const [key, value] of Object.entries(fixerData.rates)) {

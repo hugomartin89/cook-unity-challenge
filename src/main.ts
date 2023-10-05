@@ -1,3 +1,4 @@
+import { InstallTracesModule } from '@tracing/TracingModule';
 import express from 'express';
 
 const App = express();
@@ -10,6 +11,14 @@ if (import.meta.env.PROD) {
         console.debug(`Server is listening on port: ${PORT}`);
     });
 }
+
+// global middlewares
+App.use(express.json());
+
+// module initialization
+InstallTracesModule('/traces', App);
+
+// configure event listeners
 
 export {
     App

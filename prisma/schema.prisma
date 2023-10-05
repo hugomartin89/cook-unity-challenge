@@ -1,0 +1,24 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model GeoTraces {
+  ip              String @id
+  name            String
+  code            String
+  lat             Float  @db.Real
+  lon             Float  @db.Real
+  currency        String
+  distance_to_usa Float  @db.DoublePrecision
+
+  @@index([name])
+  @@index([distance_to_usa])
+}

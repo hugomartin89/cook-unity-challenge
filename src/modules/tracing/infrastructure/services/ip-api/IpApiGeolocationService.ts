@@ -1,5 +1,4 @@
 import superagent from "superagent";
-import { DistanceCalculator } from "@tracing/domain/utils/DistanceCalculator";
 import { GeolocationData, GeolocationService } from "@tracing/domain/services/geolocation/GeolocationService";
 
 type IpApiResponse = {
@@ -24,19 +23,13 @@ export class IpApiGeolocationService implements GeolocationService {
     }
 
     private transformToDomain(data: IpApiResponse): GeolocationData {
-        const distanceCalculator = DistanceCalculator.fromNewYork();
-
         return {
             ip: data.query,
             name: data.country,
             code: data.countryCode,
             lat: data.lat,
             lon: data.lon,
-            currency: data.currency,
-            distance_to_usa: distanceCalculator.getDistanceFromLatLonInKm(
-                data.lat,
-                data.lon
-            )
+            currency: data.currency
         }
     }
 

@@ -1,4 +1,3 @@
-import { DistanceCalculator } from "@tracing/domain/utils/DistanceCalculator";
 import { GeolocationData, GeolocationService } from "@tracing/domain/services/geolocation/GeolocationService";
 
 const GEOLOCATIONS = [
@@ -46,16 +45,11 @@ const GEOLOCATIONS = [
 
 export class MockGeolocationService implements GeolocationService {
     async fetchDataForIp(ip: string): Promise<GeolocationData> {
-        const distanceCalculator = DistanceCalculator.fromNewYork();
         const index = GEOLOCATIONS.findIndex((geolocation) => geolocation.ip === ip);
         const geolocationData = GEOLOCATIONS[index];
 
         return {
             ...geolocationData,
-            distance_to_usa: distanceCalculator.getDistanceFromLatLonInKm(
-                geolocationData.lat,
-                geolocationData.lon
-            )
         };
     }
 }
