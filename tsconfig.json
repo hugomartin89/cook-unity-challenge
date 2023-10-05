@@ -20,6 +20,10 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
+    "paths": {
+      "@core/*": ["src/modules/core/*"],
+      "@tracing/*": ["src/modules/tracing/*"]
+    }
   },
   "include": [
     "src",
