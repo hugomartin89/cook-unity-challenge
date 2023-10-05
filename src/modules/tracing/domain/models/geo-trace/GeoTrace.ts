@@ -7,3 +7,8 @@ export type GeoTrace = {
     readonly currency: string;
     readonly distance_to_usa: number;
 }
+
+export type GeoTraceMostTraced = {
+    readonly name: string;
+    readonly count: number;
+}

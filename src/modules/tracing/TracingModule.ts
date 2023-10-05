@@ -39,7 +39,7 @@ export const InstallTracesModule = async (root: string, app: express.Application
 
     const router = express.Router();
 
-    router.post('/', RegisterTraceController);
+    router.post('', RegisterTraceController);
 
     // mount the router
     app.use(root, router);

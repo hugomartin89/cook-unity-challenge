@@ -60,10 +60,11 @@ export class TraceService {
             const geolocationData = await this.geolocationService.fetchDataForIp(ip);
             geoTrace = this.fromGeolocationData(geolocationData);
             this.geoTraceRepository.store(geoTrace);
-            this.eventManager.dispatch(new GeoTraceStoredEvent(geoTrace));
 
             trace = this.fromGeoTraceData(geoTrace);
         }
+
+        this.eventManager.dispatch(new GeoTraceStoredEvent(geoTrace));
 
         return trace;
     }

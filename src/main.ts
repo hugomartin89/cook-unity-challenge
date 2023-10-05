@@ -1,5 +1,6 @@
-import { InstallTracesModule } from '@tracing/TracingModule';
 import express from 'express';
+import { InstallStatsModule } from '@stats/StatsModule';
+import { InstallTracesModule } from '@tracing/TracingModule';
 
 const App = express();
 
@@ -16,9 +17,8 @@ if (import.meta.env.PROD) {
 App.use(express.json());
 
 // module initialization
+InstallStatsModule('/statistics', App);
 InstallTracesModule('/traces', App);
-
-// configure event listeners
 
 export {
     App

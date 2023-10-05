@@ -1,4 +1,4 @@
-import { GeoTrace } from "@tracing/domain/models/geo-trace/GeoTrace";
+import { GeoTrace, GeoTraceMostTraced } from "@tracing/domain/models/geo-trace/GeoTrace";
 import { GeoTraceNotFoundError } from "@tracing/domain/models/geo-trace/GeoTraceNotFoundError";
 import { GeoTraceRepository } from "@tracing/domain/models/geo-trace/GeoTraceRepository";
 import { PrismaClient } from "@prisma/client";
@@ -40,5 +40,23 @@ export class PrismaGeoTraceRepository implements GeoTraceRepository {
             create: geoTrace,
             update: geoTrace,
         });
+    }
+
+    async findMostTraced(): Promise<GeoTraceMostTraced> {
+        const rows = await this.prismaClient.geoTraces.groupBy({
+            by: 'name',
+            _count: {
+                ip: true,
+            },
+        });
+
+        const data = rows.reduce((prev, curr) => {
+            return (prev && prev._count.ip > curr._count.ip) ? prev : curr
+        });
+
+        return {
+            name: data.name,
+            count: data._count.ip
+        };
     }
 }
