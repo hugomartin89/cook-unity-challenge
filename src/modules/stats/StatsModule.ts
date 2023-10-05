@@ -11,7 +11,9 @@ import { RedisMostTracedService } from './infrastructure/services/redis/RedisMos
 import { StoreLongestDistanceListener } from '@stats/infrastructure/listeners/StoreLongestDistanceListener';
 
 const prismaClient = new PrismaClient();
-const redisClient = redis.createClient();
+const redisClient = redis.createClient({
+    url: process.env.REDIS_URL
+});
 
 const configureDiServices = async () => {
     await redisClient.connect();

@@ -1,0 +1,45 @@
+version: "3.4"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+      target: deploy
+    restart: always
+    environment:
+      DATABASE_URL: "${DATABASE_URL}"
+      REDIS_URL: "${REDIS_URL}"
+      GEOLOCATION_SERVICE_DRIVER: "${GEOLOCATION_SERVICE_DRIVER}"
+      CURRENCY_SERVICE_DRIVER: "${CURRENCY_SERVICE_DRIVER}"
+      FIXER_PLAN: "${FIXER_PLAN}"
+      FIXER_BASE: "${FIXER_BASE}"
+      FIXER_API_URL: "${FIXER_API_URL}"
+      FIXER_API_KEY: "${FIXER_API_KEY}"
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "${PORT}:8080"
+    networks:
+      - cookunity-network
+
+  postgres:
+    restart: always
+    image: "postgres:15-alpine"
+    environment:
+      POSTGRES_USER: "cook"
+      POSTGRES_PASSWORD: "unity"
+      POSTGRES_DB: "challengedb"
+    networks:
+      - cookunity-network
+
+  redis:
+    restart: always
+    image: "redis:7-alpine"
+    networks:
+      - cookunity-network
+
+networks:
+  cookunity-network:
+    driver: bridge

@@ -11,7 +11,9 @@ import { RedisCacheFixerCurrencyService } from './infrastructure/services/fixer/
 import { RegisterTraceController } from './infrastructure/controllers/RegisterTraceController';
 
 const prismaClient = new PrismaClient();
-const redisClient = redis.createClient();
+const redisClient = redis.createClient({
+    url: process.env.REDIS_URL
+});
 
 const configureDiServices = async () => {
     await redisClient.connect();

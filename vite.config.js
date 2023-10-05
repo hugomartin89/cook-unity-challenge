@@ -7,7 +7,7 @@ import { resolve } from 'path';
 const packageJson = require('./package.json');
 packageJson.main = 'main.js';
 packageJson.scripts = {
-  "start": "node main.js"
+  start: "npx prisma migrate deploy && node main.js"
 };
 packageJson.devDependencies = {};
 
