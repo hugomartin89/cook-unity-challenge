@@ -1,6 +1,6 @@
 # CookUnity Challenge
 
-You can see the challenge [here](docs/excersice.pdf)
+You can see the challenge [here](docs/exercise.pdf)
 
 > Disclaimer: [fixer.io](https://fixer.io/#pricing_plan) limit the base for conversion on free plans. So, this project was developed using EUR as base for conversions
 
@@ -67,7 +67,7 @@ npm test
 ```
 ## Documentation
 
-* [The excercise file](docs/excercise.pdf) documents the requirements for the implemented API.
+* [The excercise file](docs/exercise.pdf) documents the requirements for the implemented API.
 
 ### Mocks
 
