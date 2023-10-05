@@ -1,12 +1,10 @@
 {
-  "name": "cook-unity-challenge",
+  "name": "@hugomartin89/cook-unity-challenge",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build": "tsc && vite build"
   },
   "devDependencies": {
     "typescript": "5.2.2",
