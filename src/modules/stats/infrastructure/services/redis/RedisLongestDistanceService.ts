@@ -3,6 +3,9 @@ import { createClient } from "redis";
 
 type RedisClient = ReturnType<typeof createClient>;
 
+/**
+ * Simple cache implementation for LongestDistance.
+ */
 export class RedisLongestDistanceService implements LongestDistanceService {
     private redisClient: RedisClient;
     private key: string;

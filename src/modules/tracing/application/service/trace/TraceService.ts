@@ -50,6 +50,7 @@ export class TraceService {
         let trace = null;
 
         try {
+            // let's try to find all data
             geoTrace = await this.geoTraceRepository.findByIp(ip);
             trace = this.fromGeoTraceData(geoTrace);
         } catch (error) {
@@ -57,6 +58,8 @@ export class TraceService {
                 throw error;
             }
 
+            // if fails, then we need to try to get from
+            // external service
             const geolocationData = await this.geolocationService.fetchDataForIp(ip);
 
             if (!geolocationData.code) {
@@ -69,6 +72,7 @@ export class TraceService {
             trace = this.fromGeoTraceData(geoTrace);
         }
 
+        // let's notify a new GeoTraceStoredEvent was raised!
         this.eventManager.dispatch(new GeoTraceStoredEvent(geoTrace));
 
         return trace;

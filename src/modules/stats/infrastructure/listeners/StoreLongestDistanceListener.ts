@@ -2,6 +2,10 @@ import { GeoTraceStoredEvent } from "@tracing/domain/models/geo-trace/GeoTraceSt
 import { Listener } from "@core/event-bus";
 import { LongestDistanceNotFoundError, LongestDistanceService } from "@stats/domain/services/longest-distance/LongestDistanceService";
 
+/**
+ * Handles a GeoTraceStoredEvent and computes the most longest
+ * distance from USA (New York) and stores it into cache.
+ */
 export class StoreLongestDistanceListener implements Listener<GeoTraceStoredEvent> {
     private longestDistanceService: LongestDistanceService;
 

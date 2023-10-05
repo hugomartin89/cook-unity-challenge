@@ -1,3 +1,6 @@
+/**
+ * Base class for all domain events.
+ */
 export abstract class Event<Payload> {
     private payload: Payload;
 
@@ -10,11 +13,19 @@ export abstract class Event<Payload> {
     }
 }
 
+/**
+ * Base class for all event listeners.
+ */
 export abstract class Listener<T extends Event<any>> {
     abstract shouldHandle(event: T): boolean;
     abstract handle(event: T): Promise<void>;
 }
 
+/**
+ * Event orchestrator.
+ *
+ * TODO: make async event commits.
+*/
 export class EventManager {
     private static instance: EventManager;
     private listeners: Listener<any>[];

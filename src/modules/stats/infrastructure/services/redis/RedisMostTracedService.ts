@@ -3,6 +3,9 @@ import { createClient } from "redis";
 
 type RedisClient = ReturnType<typeof createClient>;
 
+/**
+ * Simple cache implementation for MostTraced.
+ */
 export class RedisMostTracedService implements MostTracedService {
     private redisClient: RedisClient;
     private key: string;

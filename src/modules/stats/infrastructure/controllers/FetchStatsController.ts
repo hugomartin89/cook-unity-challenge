@@ -4,6 +4,9 @@ import { MostTracedService } from "@stats/domain/services/most-traced/MostTraced
 import { Request, Response } from "express";
 import { StatsService } from "@stats/application/service/stats/StatsService";
 
+/**
+ * Simple express.js middleware that handles a stats request.
+ */
 export const FetchStatsController = async (_req: Request, res: Response) => {
     try {
         const statsService = new StatsService(

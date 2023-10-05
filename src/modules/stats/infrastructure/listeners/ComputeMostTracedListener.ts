@@ -1,8 +1,12 @@
+import { GeoTraceRepository } from "@tracing/domain/models/geo-trace/GeoTraceRepository";
 import { GeoTraceStoredEvent } from "@tracing/domain/models/geo-trace/GeoTraceStoredEvent";
 import { Listener } from "@core/event-bus";
-import { GeoTraceRepository } from "@tracing/domain/models/geo-trace/GeoTraceRepository";
 import { MostTracedService } from "@stats/domain/services/most-traced/MostTracedService";
 
+/**
+ * Handles an GeoTraceStoredEvent and computes the most
+ * traced country.
+ */
 export class ComputeMostTracedListener implements Listener<GeoTraceStoredEvent> {
     private mostTracedService: MostTracedService;
     private geoTraceRepository: GeoTraceRepository;
