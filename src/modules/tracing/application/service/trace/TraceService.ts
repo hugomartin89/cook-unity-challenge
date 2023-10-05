@@ -58,6 +58,11 @@ export class TraceService {
             }
 
             const geolocationData = await this.geolocationService.fetchDataForIp(ip);
+
+            if (!geolocationData.code) {
+                throw new GeoTraceNotFoundError();
+            }
+
             geoTrace = this.fromGeolocationData(geolocationData);
             this.geoTraceRepository.store(geoTrace);
 

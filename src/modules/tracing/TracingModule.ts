@@ -1,16 +1,20 @@
 import express from 'express';
+import redis from 'redis';
 import { Container } from 'typedi';
 import { EventManager } from '@core/event-bus';
-import { FixerCurrencyService } from './infrastructure/services/fixer/FixerCurrencyService';
 import { IpApiGeolocationService } from './infrastructure/services/ip-api/IpApiGeolocationService';
 import { MockCurrencyService } from './infrastructure/services/mock/MockCurrencyService';
 import { MockGeolocationService } from './infrastructure/services/mock/MockGeolocationService';
 import { PrismaClient } from '@prisma/client';
 import { PrismaGeoTraceRepository } from './infrastructure/models/trace/PrismaGeoTraceRepository';
+import { RedisCacheFixerCurrencyService } from './infrastructure/services/fixer/RedisCacheFixerCurrencyService';
 import { RegisterTraceController } from './infrastructure/controllers/RegisterTraceController';
 
-const configureDiServices = () => {
-    const prismaClient = new PrismaClient();
+const prismaClient = new PrismaClient();
+const redisClient = redis.createClient();
+
+const configureDiServices = async () => {
+    await redisClient.connect();
 
     Container.set('EventManager', EventManager.getInstance());
 
@@ -24,7 +28,8 @@ const configureDiServices = () => {
 
     Container.set('CurrencyService',
         process.env.CURRENCY_SERVICE_DRIVER == 'fixer.io'
-            ? new FixerCurrencyService(
+            ? new RedisCacheFixerCurrencyService(
+                redisClient,
                 process.env.FIXER_API_URL,
                 process.env.FIXER_API_KEY,
                 process.env.FIXER_PLAN,
@@ -35,11 +40,11 @@ const configureDiServices = () => {
 }
 
 export const InstallTracesModule = async (root: string, app: express.Application) => {
-    configureDiServices();
+    await configureDiServices();
 
     const router = express.Router();
 
-    router.post('', RegisterTraceController);
+    router.post('/', RegisterTraceController);
 
     // mount the router
     app.use(root, router);

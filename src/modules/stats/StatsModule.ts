@@ -3,11 +3,14 @@ import redis from 'redis';
 import { ComputeMostTracedListener } from './infrastructure/listeners/ComputeMostTracedListener';
 import { Container } from 'typedi';
 import { EventManager } from '@core/event-bus';
+import { FetchStatsController } from './infrastructure/controllers/FetchStatsController';
+import { PrismaClient } from '@prisma/client';
+import { PrismaGeoTraceRepository } from '@tracing/infrastructure/models/trace/PrismaGeoTraceRepository';
 import { RedisLongestDistanceService } from './infrastructure/services/redis/RedisLongestDistanceService';
 import { RedisMostTracedService } from './infrastructure/services/redis/RedisMostTracedService';
 import { StoreLongestDistanceListener } from '@stats/infrastructure/listeners/StoreLongestDistanceListener';
-import { FetchStatsController } from './infrastructure/controllers/FetchStatsController';
 
+const prismaClient = new PrismaClient();
 const redisClient = redis.createClient();
 
 const configureDiServices = async () => {
@@ -16,6 +19,7 @@ const configureDiServices = async () => {
     Container.set('EventManager', EventManager.getInstance());
     Container.set('LongestDistanceService', new RedisLongestDistanceService(redisClient));
     Container.set('MostTracedService', new RedisMostTracedService(redisClient));
+    Container.set('GeoTraceRepository', new PrismaGeoTraceRepository(prismaClient));
 }
 
 const setupEventListeners = async () => {
@@ -33,8 +37,7 @@ export const InstallStatsModule = async (root: string, app: express.Application)
     // configure event listeners
     const router = express.Router();
 
-
-    router.get('', FetchStatsController);
+    router.get('/', FetchStatsController);
 
     // mount the router
     app.use(root, router);
